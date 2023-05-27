@@ -13,8 +13,11 @@ import { SafeAreaView } from "react-native-safe-area-context";
 import * as ImagePicker from "expo-image-picker";
 
 function ProfileScreen(props) {
+  const [isPressed, setIsPressed] = useState(false);
+  // to go the the UNdi page
   const goToUndiScreen = () => {
-    props.navigation.navigate("Undi");
+    const votingState = voteState(twoidnumber);
+    props.navigation.navigate("UNDIWHO", { voteState: votingState });
   };
 
   // function to collect data from homescreen
@@ -166,14 +169,22 @@ function ProfileScreen(props) {
           )}
         </View>
         <Pressable
-          style={{
-            alignItems: "center",
-            backgroundColor: "darkolivegreen",
-            paddingHorizontal: 8,
-            paddingVertical: 6,
-            borderRadius: 5,
-            marginBottom: 20,
-          }}
+          onPressIn={() => setIsPressed(true)}
+          onPressOut={() => setIsPressed(false)}
+          style={({ pressed }) => [
+            {
+              backgroundColor: isPressed
+                ? "darkolivegreen"
+                : pressed
+                ? "olive"
+                : "darkgreen",
+              paddingHorizontal: 60,
+              paddingVertical: 6,
+              borderRadius: 5,
+              marginTop: 20,
+            },
+            pressed && { opacity: 0.6 },
+          ]}
           // the string "UNDIWHO" must be the same as our navigation at App.js so that it can work
           onPress={pickImage}
         >
@@ -192,16 +203,25 @@ function ProfileScreen(props) {
         </Text>
         {/* to go to Settings */}
         <Pressable
-          style={{
-            alignItems: "center",
-            backgroundColor: "darkolivegreen",
-            paddingHorizontal: 8,
-            paddingVertical: 6,
-            borderRadius: 5,
-            marginTop: 50,
-          }}
+          onPressIn={() => setIsPressed(true)}
+          onPressOut={() => setIsPressed(false)}
+          style={({ pressed }) => [
+            {
+              alignItems: "center",
+              backgroundColor: isPressed
+                ? "darkolivegreen"
+                : pressed
+                ? "olive"
+                : "darkgreen",
+              paddingHorizontal: 60,
+              paddingVertical: 6,
+              borderRadius: 5,
+              marginTop: 80,
+            },
+            pressed && { opacity: 0.6 },
+          ]}
           // the string "UNDIWHO" must be the same as our navigation at App.js so that it can work
-          onPress={() => props.navigation.navigate("UNDIWHO")}
+          onPress={goToUndiScreen}
         >
           <Text style={{ color: "white", fontWeight: 700, fontSize: 20 }}>
             Next

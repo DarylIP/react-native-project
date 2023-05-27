@@ -19,6 +19,7 @@ function HomeScreen(props) {
   const [twoidnumber, setTwoIdNumber] = useState("");
   const [fouridnumber, setFourIdNumber] = useState("");
   const [birthYear, setBirthYear] = useState("");
+  const [isPressed, setIsPressed] = useState(false);
 
   const handleLogin = () => {
     // conditon for the inputing the I/c no.
@@ -41,7 +42,7 @@ function HomeScreen(props) {
           currentYear,
         });
       } else {
-        Alert.alert("You Are Not Eligible To Vote.", "Invalid ID");
+        Alert.alert("Your Are Not Eligible To Vote.", "Invalid Birth Year");
       }
 
       // Perform successful login action here
@@ -136,14 +137,23 @@ function HomeScreen(props) {
         </View>
         <Pressable
           onPress={handleLogin}
-          style={{
-            alignItems: "center",
-            backgroundColor: "darkolivegreen",
-            paddingHorizontal: 60,
-            paddingVertical: 6,
-            borderRadius: 5,
-            marginTop: 80,
-          }}
+          onPressIn={() => setIsPressed(true)}
+          onPressOut={() => setIsPressed(false)}
+          style={({ pressed }) => [
+            {
+              alignItems: "center",
+              backgroundColor: isPressed
+                ? "darkolivegreen"
+                : pressed
+                ? "olive"
+                : "darkgreen",
+              paddingHorizontal: 60,
+              paddingVertical: 6,
+              borderRadius: 5,
+              marginTop: 80,
+            },
+            pressed && { opacity: 0.6 },
+          ]}
         >
           <Text style={{ color: "white", fontWeight: 700, fontSize: 20 }}>
             Next
